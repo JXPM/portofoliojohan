@@ -7,6 +7,8 @@ import SkillsSection from "@/components/SkillsSection";
 import EducationSection from "@/components/EducationSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import AvatarSection from "@/components/AvatarSection"
+
 
 export default function Home() {
   return (
@@ -20,6 +22,7 @@ export default function Home() {
         <SkillsSection />
         <EducationSection />
         <ContactSection />
+        <AvatarSection />
       </main>
       <Footer />
     </>

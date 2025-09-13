@@ -13,7 +13,7 @@ import {
   Github,
   Linkedin,
   TwitterIcon,
-  CheckCircle,
+  CheckCircle,  
 } from "lucide-react";
 
 const ContactSection = () => {

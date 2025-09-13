@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   allowedDevOrigins: ["*.preview.same-app.com"],
@@ -31,6 +33,14 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  transpilePackages: ['leaflet', 'react-leaflet'],
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      leaflet: path.resolve(__dirname, 'node_modules/leaflet'),
+    };
+    return config;
   },
 };
 

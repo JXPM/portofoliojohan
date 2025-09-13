@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "./globals.css"
+import AvatarAssistant from "@/components/AvatarSection";
 import ClientBody from "./ClientBody";
 import Script from "next/script";
 
@@ -118,7 +119,10 @@ export default function RootLayout({
       <body suppressHydrationWarning className="antialiased">
         {/* Ajoutez CurvedLinesBackground ici */}
         <CurvedLinesBackground />
-        <ClientBody>{children}</ClientBody>
+        <ClientBody>{
+        children}
+        <AvatarAssistant />
+        </ClientBody>
       </body>
     </html>
   );

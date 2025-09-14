@@ -8,13 +8,24 @@ export default function AvatarAssistant() {
   const [isTalking, setIsTalking] = useState(false)
   const [step, setStep] = useState<"idle" | "ask" | "summary" | "end">("idle")
   const [showBubble, setShowBubble] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(false) // Empêche double clic
 
   useEffect(() => {
     if (!audioRef.current) return
     const audio = audioRef.current
 
     const startTalking = () => setIsTalking(true)
-    const stopTalking = () => setIsTalking(false)
+    const stopTalking = () => {
+      setIsTalking(false)
+      // Masque la bulle automatiquement après la fin de l'audio
+      if (step === "summary" || step === "end") {
+        setTimeout(() => {
+          setShowBubble(false)
+          setStep("idle")
+        }, 3000)
+      }
+      setButtonDisabled(false)
+    }
 
     audio.addEventListener("play", startTalking)
     audio.addEventListener("ended", stopTalking)
@@ -25,14 +36,15 @@ export default function AvatarAssistant() {
       audio.removeEventListener("ended", stopTalking)
       audio.removeEventListener("pause", stopTalking)
     }
-  }, [])
+  }, [step])
 
   const handleStart = () => {
-    if (!audioRef.current) return
+    if (!audioRef.current || buttonDisabled) return
     audioRef.current.src = "/voice.mp3"
     audioRef.current.play()
     setShowBubble(true)
     setStep("ask")
+    setButtonDisabled(true)
   }
 
   const handleYes = () => {
@@ -47,31 +59,23 @@ export default function AvatarAssistant() {
     audioRef.current.src = "/end.mp3" 
     audioRef.current.play()
     setStep("end")
-    setTimeout(() => setShowBubble(false), 4000)
   }
 
   return (
     <>
       <div className="fixed bottom-5 left-5 z-50">
         <div className="relative w-20 sm:w-32">
-          {/* Avatar */}
-          <img
-            src="/bitmoji.png"
-            alt="Assistant IA"
-            className="w-full h-auto"
-          />
+          <img src="/bitmoji.png" alt="Assistant IA" className="w-full h-auto" />
 
-          {/* Bouton parler */}
           {step === "idle" && (
             <div className="absolute -top-6 sm:-top-8 left-1/2 translate-x-8 -translate-x-1/2 flex flex-col items-center">
               <div className="bg-white shadow-md px-2 sm:px-3 py-1 sm:py-2 rounded-full flex items-center gap-1 cursor-pointer hover:bg-gray-100 transition">
-                <button onClick={handleStart} className="flex items-center gap-1 text-xs sm:text-sm">
+                <button onClick={handleStart} disabled={buttonDisabled} className="flex items-center gap-1 text-xs sm:text-sm">
                   <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
                   <span className="text-gray-700">Parler</span>
                 </button>
               </div>
 
-              {/* Petits cercles */}
               <div className="flex flex-col mt-1 space-y-1">
                 <div className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full border border-gray-300 shadow-sm -translate-x-1"></div>
                 <div className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 bg-white rounded-full border border-gray-300 shadow-sm -translate-x-2"></div>
@@ -81,7 +85,6 @@ export default function AvatarAssistant() {
           )}
         </div>
 
-        {/* Bulle de dialogue */}
         {showBubble && (
           <div className="absolute -top-20 sm:-top-28 left-24 sm:left-36 bg-white shadow-lg px-3 sm:px-4 py-2 sm:py-3 rounded-2xl max-w-xs text-xs sm:text-sm text-gray-800">
             {step === "ask" && (
@@ -103,14 +106,12 @@ export default function AvatarAssistant() {
                 </div>
               </div>
             )}
-
             {step === "summary" && <p>Voici un résumé de mon parcours…</p>}
             {step === "end" && <p>.....</p>}
           </div>
         )}
       </div>
 
-      {/* Audio voix */}
       <audio ref={audioRef} className="hidden" />
     </>
   )

@@ -7,7 +7,8 @@ import SkillsSection from "@/components/SkillsSection";
 import EducationSection from "@/components/EducationSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import AvatarSection from "@/components/AvatarSection"
+import AvatarSection from "@/components/AvatarSection";
+import MapSection from "@/components/MapSection";
 
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
         <HeroSection />
         <AboutSection />
         <ExperienceSection />
+        <MapSection />
         <ProjectsSection />
         <SkillsSection />
         <EducationSection />

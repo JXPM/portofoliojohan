@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, LinkedinIcon, Mail } from "lucide-react";
 import joh from "@/assets/joh.jpg";
 
-
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -23,21 +22,21 @@ const HeroSection = () => {
   return (
     <section
       id="accueil"
-      className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-background to-background/50"
+      className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-background to-background/50 px-4 sm:px-8"
     >
-    {/* Photo + liens réseaux en haut à gauche */}
-      <div className="absolute top-16 left-12 flex flex-col items-center gap-4">
-      <div className="w-24 h-24 rounded-full border border-gray-200 shadow-md overflow-hidden">
-    {/* SUPPRIMEZ le div de transformation et utilisez object-position */}
-        <img
-          src={joh.src}
-          alt="Photo de profil"
-          className="w-full h-full object-cover object-[center_10%]" // Ajustez le pourcentage vertical
-        />
-      </div>
+      {/* Photo + liens réseaux */}
+      <div className="absolute top-6 left-4 sm:top-12 sm:left-12 flex flex-col items-center gap-3 sm:gap-4">
+        {/* Photo responsive */}
+        <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border border-gray-200 shadow-md overflow-hidden">
+          <img
+            src={joh.src}
+            alt="Photo de profil"
+            className="w-full h-full object-cover object-[center_10%]"
+          />
+        </div>
 
         {/* Réseaux sociaux */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-row sm:flex-col gap-2 sm:gap-3">
           <a
             href="https://www.linkedin.com/in/kouam%C3%A9-johan-bile-8682b8296/"
             target="_blank"
@@ -67,17 +66,17 @@ const HeroSection = () => {
       </div>
 
       {/* Contenu centré */}
-      <div className="container-width section-padding text-center max-w-4xl mx-auto">
+      <div className="container-width section-padding text-center max-w-4xl mx-auto mt-32 sm:mt-0">
         {/* Nom et titre */}
         <div
           className={`mb-6 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-4">
             <span className="text-gradient">Kouamé Bilé</span>
           </h1>
-          <h2 className="text-xl md:text-2xl text-muted-foreground font-light">
+          <h2 className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-light">
             Développeur Full Stack • Data & Cloud Enthusiast • Innovateur Créatif
           </h2>
         </div>
@@ -88,7 +87,7 @@ const HeroSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Animé par la volonté de transformer la donnée en valeur, j’imagine et
             développe des solutions intelligentes qui allient performance,
             simplicité et innovation, tout en rendant la technologie plus

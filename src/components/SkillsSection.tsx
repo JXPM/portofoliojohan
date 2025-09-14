@@ -13,7 +13,13 @@ import {
   MessageCircle,
   Target,
   Zap,
-  Brain
+  Brain,
+  ClipboardCheck,
+  Shield,
+  Volleyball,
+  BookOpen,
+  BarChart,
+  Book
 } from "lucide-react";
 
 interface Skill {
@@ -47,138 +53,156 @@ const SkillsSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const hardSkills: SkillCategory[] = [
+  const hardSkillsConsulting: SkillCategory[] = [
     {
-      titre: "Frontend",
-      icone: <Code className="w-5 h-5" />,
+      titre: "Data Engineering & Cloud",
+      icone: <Cloud className="w-5 h-5" />,
       competences: [
         { 
-          nom: "React/Next.js", 
-          icone: <Code className="w-4 h-4" />,
-          description: "Développement d'applications modernes avec React, Next.js et écosystème associé" 
+          nom: "ETL / Pipelines", 
+          icone: <Database className="w-4 h-4" />,
+          description: "Automatisation des flux de données pour l’intégration et la transformation" 
         },
         { 
-          nom: "Vue.js", 
-          icone: <Code className="w-4 h-4" />,
-          description: "Création d'interfaces réactives avec Vue 3 et Composition API" 
-        },
-        { 
-          nom: "TypeScript", 
-          icone: <Code className="w-4 h-4" />,
-          description: "Typage statique pour des applications JavaScript plus robustes" 
-        },
-        { 
-          nom: "Tailwind CSS", 
-          icone: <Palette className="w-4 h-4" />,
-          description: "Framework CSS utilitaire pour des designs rapides et cohérents" 
-        },
-        { 
-          nom: "Sass/SCSS", 
-          icone: <Palette className="w-4 h-4" />,
-          description: "Préprocesseur CSS pour une stylisation maintenable et modulaire" 
-        }
-      ]
-    },
-    {
-      titre: "Backend",
-      icone: <Database className="w-5 h-5" />,
-      competences: [
-        { 
-          nom: "Node.js", 
-          icone: <Code className="w-4 h-4" />,
-          description: "Environnement d'exécution JavaScript côté serveur" 
-        },
-        { 
-          nom: "Express.js", 
-          icone: <Code className="w-4 h-4" />,
-          description: "Framework web minimaliste et flexible pour Node.js" 
+          nom: "Cloud (AWS / GCP / Azure)", 
+          icone: <Cloud className="w-4 h-4" />,
+          description: "Déploiement et gestion de données dans des environnements cloud" 
         },
         { 
           nom: "PostgreSQL", 
           icone: <Database className="w-4 h-4" />,
-          description: "Système de gestion de base de données relationnelle open source" 
-        },
-        { 
-          nom: "MongoDB", 
-          icone: <Database className="w-4 h-4" />,
-          description: "Base de données NoSQL orientée documents" 
-        },
-        { 
-          nom: "GraphQL", 
-          icone: <Code className="w-4 h-4" />,
-          description: "Langage de requête pour APIs et environnement d'exécution" 
+          description: "Gestion et optimisation de bases de données relationnelles" 
         }
       ]
     },
     {
-      titre: "DevOps & Cloud",
-      icone: <Cloud className="w-5 h-5" />,
+      titre: "Data Science & IA",
+      icone: <Brain className="w-5 h-5" />,
       competences: [
         { 
-          nom: "AWS", 
-          icone: <Cloud className="w-4 h-4" />,
-          description: "Services cloud pour le déploiement, le stockage et la mise à l'échelle" 
+          nom: "Python (Pandas, NumPy, Scikit-learn)", 
+          icone: <Code className="w-4 h-4" />,
+          description: "Analyse de données et modélisation prédictive" 
         },
         { 
-          nom: "Docker", 
-          icone: <Cloud className="w-4 h-4" />,
-          description: "Conteneurisation d'applications pour des déploiements cohérents" 
+          nom: "Machine Learning", 
+          icone: <Brain className="w-4 h-4" />,
+          description: "Création de modèles supervisés et non supervisés" 
         },
         { 
-          nom: "CI/CD", 
-          icone: <Cloud className="w-4 h-4" />,
-          description: "Intégration et déploiement continus avec GitHub Actions, Jenkins" 
+          nom: "IA Générative (OpenAI, LLMs)", 
+          icone: <Brain className="w-4 h-4" />,
+          description: "Développement de solutions basées sur l’IA conversationnelle et générative" 
         },
         { 
-          nom: "Nginx", 
-          icone: <Cloud className="w-4 h-4" />,
-          description: "Serveur web et reverse proxy pour applications modernes" 
+          nom: "NLP / Chatbots", 
+          icone: <MessageCircle className="w-4 h-4" />,
+          description: "Conception et intégration d’assistants virtuels intelligents" 
+        }
+      ]
+    },
+    {
+      titre: "Business Intelligence & Reporting",
+      icone: <BarChart className="w-5 h-5" />,
+      competences: [
+        { 
+          nom: "Power BI", 
+          icone: <BarChart className="w-4 h-4" />,
+          description: "Création de tableaux de bord pour la prise de décision" 
         },
         { 
-          nom: "Linux", 
-          icone: <Cloud className="w-4 h-4" />,
-          description: "Administration de serveurs et environnements Linux" 
+          nom: "SQL Avancé", 
+          icone: <Database className="w-4 h-4" />,
+          description: "Requêtes et analyses avancées pour extraction de données" 
+        },
+        { 
+          nom: "Visualisation de données", 
+          icone: <BarChart className="w-4 h-4" />,
+          description: "Présentation claire et interactive des insights" 
+        }
+      ]
+    },
+    {
+      titre: "Cybersécurité & Protection des Données",
+      icone: <Shield className="w-5 h-5" />,
+      competences: [
+        { 
+          nom: "IoT Security", 
+          icone: <Shield className="w-4 h-4" />,
+          description: "Gestion des risques liés aux objets connectés" 
+        },
+        { 
+          nom: "Droits d’accès & Authentification", 
+          icone: <Shield className="w-4 h-4" />,
+          description: "Mise en place et contrôle des accès aux données sensibles" 
+        },
+        { 
+          nom: "RGPD", 
+          icone: <Shield className="w-4 h-4" />,
+          description: "Conformité et protection des données personnelles" 
         }
       ]
     }
   ];
-
+  
   const softSkills = [
     {
       nom: "Leadership",
       icone: <Users className="w-5 h-5" />,
-      description: "Encadrement d'équipes et gestion de projets"
+      description: "Capacité à diriger, motiver et coordonner des équipes"
     },
     {
-      nom: "Créativité",
-      icone: <Lightbulb className="w-5 h-5" />,
-      description: "Innovation et résolution créative de problèmes"
+      nom: "Gestion de projet",
+      icone: <ClipboardCheck className="w-5 h-5" />,
+      description: "Planification, organisation et suivi de projets IT & Data"
     },
     {
       nom: "Communication",
       icone: <MessageCircle className="w-5 h-5" />,
-      description: "Communication claire avec clients et équipes"
+      description: "Échanges clairs et adaptés avec clients, partenaires et équipes"
     },
     {
       nom: "Adaptabilité",
       icone: <Zap className="w-5 h-5" />,
-      description: "Flexibilité face aux changements technologiques"
+      description: "Flexibilité et réactivité face aux nouveaux environnements et technologies"
     },
     {
-      nom: "Résolution de problèmes",
+      nom: "Esprit analytique",
       icone: <Brain className="w-5 h-5" />,
-      description: "Analyse et résolution efficace des défis techniques"
+      description: "Analyse des données et résolution efficace de problèmes complexes"
     },
     {
-      nom: "Orientation résultats",
+      nom: "Entrepreneuriat",
       icone: <Target className="w-5 h-5" />,
-      description: "Focus sur la livraison et la qualité"
+      description: "Vision stratégique orientée résultats et innovation"
+    }
+  ];
+  
+  const centresInteret = [
+    {
+      nom: "Mode & Design",
+      icone: <Palette className="w-5 h-5" />,
+      description: "Création de la marque de vêtements Akoma"
+    },
+    {
+      nom: "Sport",
+      icone: <Volleyball className="w-5 h-5" />,
+      description: "Football, musculation et cardio"
+    },
+    {
+      nom: "Technologie & Innovation",
+      icone: <Lightbulb className="w-5 h-5" />,
+      description: "Exploration des nouvelles tendances Data & IA"
+    },
+    {
+      nom: "Animés (Manga)",
+      icone: <BookOpen className="w-5 h-5" />,
+      description: "Passion pour les animés japonais et la culture manga"
     }
   ];
 
   const outils = [
-    "VS Code", "Git", "Figma", "Postman", "Jira", "Slack",
-    "Photoshop", "Notion", "Webpack", "Vite", "Jest", "Cypress"
+    "VS Code", "Git", "GitHub", "Linux", "Windows", "Suite Adobe"
   ];
 
   return (
@@ -200,7 +224,7 @@ const SkillsSection = () => {
             <div className="lg:col-span-2 space-y-6">
               <h3 className="text-2xl font-semibold mb-6">Compétences Techniques</h3>
 
-              {hardSkills.map((category, categoryIndex) => (
+              {hardSkillsConsulting.map((category, categoryIndex) => (
                 <Card 
                   key={categoryIndex} 
                   className="border-border/50 hover:shadow-md transition-all duration-300"
@@ -246,32 +270,62 @@ const SkillsSection = () => {
               ))}
             </div>
 
-            {/* Soft Skills */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold mb-6">Soft Skills</h3>
+            {/* Colonne droite : Soft Skills + Centres d’intérêt */}
+            <div className="space-y-12">
+              {/* Soft Skills */}
+              <div className="space-y-6">
+                <h3 className="text-2xl font-semibold mb-6">Soft Skills</h3>
+                <div className="space-y-4">
+                  {softSkills.map((skill, index) => (
+                    <Card 
+                      key={index} 
+                      className="border-border/50 hover:border-border transition-all duration-300 hover:shadow-md animate-slide-up"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="p-2 rounded-lg bg-accent flex-shrink-0">
+                            {skill.icone}
+                          </div>
+                          <div>
+                            <h4 className="font-semibold mb-1">{skill.nom}</h4>
+                            <p className="text-sm text-muted-foreground">
+                              {skill.description}
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
 
-              <div className="space-y-4">
-                {softSkills.map((skill, index) => (
-                  <Card 
-                    key={index} 
-                    className="border-border/50 hover:border-border transition-all duration-300 hover:shadow-md animate-slide-up"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-start gap-3">
-                        <div className="p-2 rounded-lg bg-accent flex-shrink-0">
-                          {skill.icone}
+              {/* Centres d’intérêt */}
+              <div className="space-y-6">
+                <h3 className="text-2xl font-semibold mb-6">Centres d’intérêt</h3>
+                <div className="space-y-4">
+                  {centresInteret.map((interet, index) => (
+                    <Card 
+                      key={index} 
+                      className="border-border/50 hover:border-border transition-all duration-300 hover:shadow-md animate-slide-up"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="p-2 rounded-lg bg-accent flex-shrink-0">
+                            {interet.icone}
+                          </div>
+                          <div>
+                            <h4 className="font-semibold mb-1">{interet.nom}</h4>
+                            <p className="text-sm text-muted-foreground">
+                              {interet.description}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold mb-1">{skill.nom}</h4>
-                          <p className="text-sm text-muted-foreground">
-                            {skill.description}
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

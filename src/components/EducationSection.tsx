@@ -27,46 +27,84 @@ const EducationSection = () => {
   const formations = [
     {
       id: 1,
-      titre: "Master en Informatique",
-      etablissement: "École Supérieure d'Informatique",
-      periode: "2017 - 2019",
-      lieu: "Paris, France",
-      description: "Spécialisation en développement web et ingénierie logicielle.",
-      mention: "Mention Bien",
-      competences: ["Algorithmique", "Bases de données", "Génie logiciel", "Réseaux"]
+      titre: "Developpeur IA & Data",
+      etablissement: "EPSI - Ecole d'Ingénierie Informatique",
+      periode: "Septembre 2025 - Aujourd’hui",
+      lieu: "Lille, France",
+      description: "Formation en Data Engineering et DevOps.",
+      competences: ["Machine Learning", "Agile & Scrum", "DevOps/SysOps", "Docker"],
     },
     {
       id: 2,
-      titre: "Licence Informatique",
-      etablissement: "Université Paris-Sud",
-      periode: "2014 - 2017",
-      lieu: "Orsay, France",
-      description: "Formation généraliste en informatique.",
-      competences: ["Programmation", "Mathématiques", "Systèmes"]
-    }
+      titre: "Chargé de Projet IA & Data",
+      etablissement: "IA School - Groupe GEMA",
+      periode: "Octobre 2023 - Juin 2025",
+      lieu: "Lille, France",
+      description: "Formation en Data Engineering et Intelligence Artificielle.",
+      competences: ["Statistiques appliquées", "IA", "Power platform", "Prompt engineering"],
+      role: "Délégué de classe",
+    },
+    {
+      id: 3,
+      titre: "Formation Anglais Professionnel",
+      etablissement: "BT Institute",
+      periode: "2021 - 2022",
+      lieu: "Accra, Ghana",
+      description:
+        "Formation intensive en anglais professionnel avec obtention d’un certificat attestant du niveau.",
+      competences: ["Communication en anglais", "Anglais professionnel", "Prise de parole"],
+    },
   ];
 
   const certifications = [
     {
       id: 1,
-      nom: "AWS Solutions Architect Associate",
-      organisme: "Amazon Web Services",
-      dateObtention: "Mars 2023",
+      nom: "Apprendre les languages HTML & CSS",
+      organisme: "Skilleos",
+      dateObtention: "Octobre 2024",
       statut: "Obtenu",
-      description: "Certification validant les compétences en architecture cloud AWS"
+      description: "Certification validant les compétences en HTML et CSS",
     },
     {
       id: 2,
-      nom: "React Developer Certification",
-      organisme: "Meta (Facebook)",
-      dateObtention: "Janvier 2023",
+      nom: "Outlook Microsoft 365",
+      organisme: "Skilleos",
+      dateObtention: "Octobre 2024",
       statut: "Obtenu",
-      description: "Certification officielle Meta couvrant React et ses écosystèmes"
+      description: "Certification officielle Microsoft pour Outlook",
+    },
+    {
+      id: 3,
+      nom: "Programmation Python (1/2)",
+      organisme: "Skilleos",
+      dateObtention: "Septembre 2024",
+      statut: "Obtenu",
+      description: "Certification officielle pour Python",
+    },
+    {
+      id: 4,
+      nom: "Programmation Python (2/2)",
+      organisme: "Skilleos",
+      dateObtention: "Septembre 2024",
+      statut: "Obtenu",
+      description: "Certification officielle pour Python",
+    },
+    {
+      id: 5,
+      nom: "Computer Hardware Basics",
+      organisme: "Cisco Networking Academy",
+      dateObtention: "Juillet 2024",
+      statut: "Obtenu",
+      description: "Certification Cisco sur les bases du matériel informatique",
     }
   ];
 
   const getStatutIcon = (statut: string) => {
-    return statut === "Obtenu" ? <CheckCircle className="w-4 h-4 text-green-600" /> : <Clock className="w-4 h-4 text-blue-600" />;
+    return statut === "Obtenu" ? (
+      <CheckCircle className="w-4 h-4 text-green-600" />
+    ) : (
+      <Clock className="w-4 h-4 text-blue-600" />
+    );
   };
 
   return (
@@ -92,9 +130,19 @@ const EducationSection = () => {
 
               <div className="space-y-6">
                 {formations.map((formation) => (
-                  <Card key={formation.id} className="border-border/50 hover:border-border transition-colors">
+                  <Card
+                    key={formation.id}
+                    className="border-border/50 hover:border-border transition-colors"
+                  >
                     <CardHeader>
-                      <CardTitle className="text-lg">{formation.titre}</CardTitle>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        {formation.titre}
+                        {formation.role && (
+                          <Badge className="bg-blue-100 text-blue-700 border-blue-300">
+                            {formation.role}
+                          </Badge>
+                        )}
+                      </CardTitle>
                       <div className="flex flex-col gap-2 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <GraduationCap className="w-4 h-4" />
@@ -109,14 +157,16 @@ const EducationSection = () => {
                           <span>{formation.periode}</span>
                         </div>
                       </div>
-                      {formation.mention && (
+                      {formation.periode.includes("Aujourd’hui") && (
                         <Badge variant="secondary" className="w-fit">
-                          {formation.mention}
+                          En cours
                         </Badge>
                       )}
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground mb-4">{formation.description}</p>
+                      <p className="text-muted-foreground mb-4">
+                        {formation.description}
+                      </p>
                       <div>
                         <h5 className="font-medium mb-2">Compétences acquises</h5>
                         <div className="flex flex-wrap gap-1">
@@ -142,13 +192,18 @@ const EducationSection = () => {
 
               <div className="space-y-4">
                 {certifications.map((cert) => (
-                  <Card key={cert.id} className="border-border/50 hover:border-border transition-colors">
+                  <Card
+                    key={cert.id}
+                    className="border-border/50 hover:border-border transition-colors"
+                  >
                     <CardContent className="p-6">
                       <div className="space-y-3">
                         <div className="flex items-start justify-between">
                           <div>
                             <h4 className="font-semibold">{cert.nom}</h4>
-                            <p className="text-sm text-muted-foreground">{cert.organisme}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {cert.organisme}
+                            </p>
                           </div>
                           <div className="flex items-center gap-2">
                             {getStatutIcon(cert.statut)}
@@ -158,7 +213,9 @@ const EducationSection = () => {
                           </div>
                         </div>
 
-                        <p className="text-sm text-muted-foreground">{cert.description}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {cert.description}
+                        </p>
 
                         <div className="text-sm text-muted-foreground">
                           Obtenue: {cert.dateObtention}

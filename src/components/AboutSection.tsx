@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Download, MapPin, Calendar, Code, Heart } from "lucide-react";
 
+
 const AboutSection = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -76,15 +77,25 @@ const AboutSection = () => {
 
               {/* Localisation et CV */}
               <div className="flex flex-col sm:flex-row gap-4 items-start">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <MapPin className="w-4 h-4" />
+              {/* Localisation */}
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <MapPin className="w-4 h-4" />
                   <span>Lille, France</span>
-                </div>
-                <Button variant="outline" className="gap-2">
-                  <Download className="w-4 h-4" />
-                  Télécharger mon CV
-                </Button>
               </div>
+
+      {/* Téléchargement CV */}
+      <a
+        href="/Cv_Bile_Kouame.pdf"
+        download="CV_Kouamé_Bile.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button variant="outline" className="gap-2">
+          <Download className="w-4 h-4" />
+          Télécharger mon CV
+        </Button>
+      </a>
+    </div>
 
               {/* Valeurs */}
               <div>

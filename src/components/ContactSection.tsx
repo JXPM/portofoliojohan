@@ -54,17 +54,29 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Simulation d'envoi de formulaire
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
+  
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+  
+      const result = await res.json();
+      if (result.success) {
+        setIsSubmitted(true);
+        setFormData({ nom: "", email: "", sujet: "", message: "" });
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        alert("Une erreur est survenue. Réessayez plus tard.");
+      }
+    } catch (error) {
+      alert("Impossible d’envoyer le message.");
+    }
+  
     setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ nom: "", email: "", sujet: "", message: "" });
-
-    // Reset le message de succès après 5 secondes
-    setTimeout(() => setIsSubmitted(false), 5000);
   };
+  
 
   const contactInfo = [
     {

@@ -1,123 +1,94 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Download, MapPin, Calendar, Code, Heart } from "lucide-react";
-
+import { BriefcaseBusiness, Download, MapPin, GraduationCap } from "lucide-react";
 
 const AboutSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    const section = document.getElementById("apropos");
-    if (section) observer.observe(section);
-
-    return () => observer.disconnect();
-  }, []);
-
   const stats = [
-    { label: "Années d'expérience", value: "2+", icon: Calendar },
-    { label: "Projets réalisés", value: "15+", icon: Code },
-    { label: "Retour positif", value: "7+", icon: Heart },
+    { label: "Experiences professionnelles", value: "3", icon: BriefcaseBusiness },
+    { label: "Formations superieures", value: "2", icon: GraduationCap },
+    { label: "Ville actuelle", value: "Lille", icon: MapPin },
   ];
 
-  const values = [
-    "Innovation créative",
-    "Rigueur & qualité",
-    "Impact humain",
-    "Esprit d’équipe",
-    "Croissance personnelle",
+  const focus = [
+    "Automatisation avec n8n",
+    "Machine Learning (Scikit-learn)",
+    "Data engineering (SQL / ETL)",
+    "Developpement web avec Next.js",
+    "Methodes Agile / Scrum",
   ];
 
   return (
     <section id="apropos" className="py-20 bg-background">
       <div className="container-width section-padding">
-        <div
-          className={`fade-in ${isVisible ? "visible" : ""}`}
-        >
-          {/* Titre de section */}
+        <div>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              À propos de moi
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">A propos</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Découvrez mon parcours, mes valeurs et ce qui me passionne dans le développement
+              Etudiant en Master Ingenierie Data & IA, je recherche une alternance de 2 ans en architecture SI et innovation IA.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Contenu principal */}
             <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <img
+                  src="https://github.com/JXPM.png"
+                  alt="Photo de Johan Bile"
+                  className="h-16 w-16 rounded-full border border-white/30 object-cover"
+                />
+                <div>
+                  <p className="font-semibold">Johan Bile</p>
+                  <p className="text-sm text-muted-foreground">Data / AI Developer</p>
+                </div>
+              </div>
+
               <div className="space-y-4">
-                <h3 className="text-2xl font-semibold">Mon histoire</h3>
+                <h3 className="text-2xl font-semibold">Mon positionnement</h3>
                 <div className="text-muted-foreground space-y-4 leading-relaxed">
                   <p>
-                  Depuis toujours curieux des nouvelles technologies, j’ai trouvé ma voie dans le développement et l’univers de la data.
-                  Mon intérêt pour l’informatique s’est affirmé au fil de mes études et de mes expériences,
-                  où j’ai découvert à quel point j’aimais donner vie à des projets en transformant une idée en solution concrète, utile et intuitive.
+                    J'accompagne les equipes dans la creation de solutions data et IA utiles au quotidien:
+                    automatiser des flux, fiabiliser les donnees et faciliter la prise de decision.
                   </p>
                   <p>
-                  Avec le temps, j’ai construit une expertise en développement full-stack, tout en explorant le cloud, la data et l’intelligence artificielle.
-                  Ce qui me motive, c’est autant le côté technique que la recherche d’un impact humain réel : concevoir des outils qui allient performance, simplicité et innovation.
-                  Toujours en quête d’apprentissage, je relève chaque défi comme une opportunité de grandir, de collaborer et d’innover.
+                    Mon approche combine rigueur technique, comprehension metier et sens du produit.
+                    Je privilegie des livrables concrets, mesurables, et faciles a maintenir.
                   </p>
                 </div>
               </div>
 
-              {/* Localisation et CV */}
               <div className="flex flex-col sm:flex-row gap-4 items-start">
-              {/* Localisation */}
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <MapPin className="w-4 h-4" />
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <MapPin className="w-4 h-4" />
                   <span>Lille, France</span>
+                </div>
+                <a href="/CV_Bile_Kouame.pdf" download="CV_Bile_Kouame.pdf" target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="gap-2">
+                    <Download className="w-4 h-4" />
+                    Telecharger mon CV
+                  </Button>
+                </a>
               </div>
 
-      {/* Téléchargement CV */}
-      <a
-        href="/Cv_Bile_Kouame.pdf"
-        download="CV_Kouamé_Bile.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Button variant="outline" className="gap-2">
-          <Download className="w-4 h-4" />
-          Télécharger mon CV
-        </Button>
-      </a>
-    </div>
-
-              {/* Valeurs */}
               <div>
-                <h4 className="text-lg font-semibold mb-3">Mes valeurs</h4>
+                <h4 className="text-lg font-semibold mb-3">Focus actuels</h4>
                 <div className="flex flex-wrap gap-2">
-                  {values.map((value, index) => (
-                    <Badge key={index} variant="secondary" className="text-sm">
-                      {value}
+                  {focus.map((item) => (
+                    <Badge key={item} variant="secondary" className="text-sm">
+                      {item}
                     </Badge>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Statistiques */}
             <div className="space-y-6">
               <div className="grid gap-4">
-                {stats.map((stat, index) => (
-                  <Card key={index} className="border-border/50 hover:border-border transition-colors">
+                {stats.map((stat) => (
+                  <Card key={stat.label} className="glass-strong">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-lg bg-accent">
+                        <div className="p-3 rounded-lg bg-accent/60">
                           <stat.icon className="w-6 h-6" />
                         </div>
                         <div>
@@ -130,14 +101,13 @@ const AboutSection = () => {
                 ))}
               </div>
 
-              {/* Citation */}
-              <Card className="border-border/50">
+              <Card className="glass-strong">
                 <CardContent className="p-6">
                   <blockquote className="text-lg italic text-center">
-                  "Les données sont le nouveau pétrole, mais c’est l’analyse qui les transforme en valeur."
+                    "Transformer la data en impact metier mesurable."
                   </blockquote>
                   <cite className="block text-sm text-muted-foreground text-center mt-2">
-                  - Clive Humby
+                    - Johan Bile
                   </cite>
                 </CardContent>
               </Card>

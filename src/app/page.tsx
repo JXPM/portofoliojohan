@@ -7,24 +7,23 @@ import SkillsSection from "@/components/SkillsSection";
 import EducationSection from "@/components/EducationSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import AvatarSection from "@/components/AvatarSection";
-import MapSection from "@/components/MapSection";
-
+import IntroOverlay from "@/components/IntroOverlay";
+import MouseCompanion from "@/components/MouseCompanion";
 
 export default function Home() {
   return (
     <>
+      <IntroOverlay />
+      <MouseCompanion />
       <Navigation />
       <main>
         <HeroSection />
         <AboutSection />
         <ExperienceSection />
-        <MapSection />
         <ProjectsSection />
         <SkillsSection />
         <EducationSection />
         <ContactSection />
-        <AvatarSection />
       </main>
       <Footer />
     </>

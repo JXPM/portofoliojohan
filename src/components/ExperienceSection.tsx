@@ -1,130 +1,116 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building, Calendar, Quote, Star } from "lucide-react";
+import { Building, Calendar } from "lucide-react";
 
 interface Experience {
   id: number;
   poste: string;
   entreprise: string;
+  entrepriseCourt: string;
+  logo: string;
   periode: string;
   lieu: string;
   description: string[];
   technologies: string[];
-  temoignage?: {
-    texte: string;
-    auteur: string;
-    poste: string;
-    note: number;
-  };
+  impact: string;
 }
 
 const ExperienceSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    const section = document.getElementById("experiences");
-    if (section) observer.observe(section);
-
-    return () => observer.disconnect();
-  }, []);
-
   const experiences: Experience[] = [
     {
       id: 1,
-      poste: "Développeur Full Stack & Data",
-      entreprise: "Fingec",
-      periode: "Mai 2025 - Juillet 2025",
+      poste: "Stage Assistant Architecte & Innovation IA",
+      entreprise: "Fingec - Cabinet d'expertise comptable",
+      entrepriseCourt: "FG",
+      logo: "/logo-fingec.png",
+      periode: "Depuis mars 2026",
       lieu: "Rouen, France",
       description: [
-        "Développement d'un site web modernes avec React/Next.js et Node.js",
-        "Conception et implémentation d'APIs ",
-        "Deploiement et gestion de bases de données PostgreSQL et du site web",
-        "Automatisation de certaines tâches répétitives via des scripts ",
-        "Maintenance et amélioration des systèmes existants"
+        "Conception de workflows n8n pour automatiser les relances clients",
+        "Structuration de flux de donnees pour un meilleur pilotage metier",
+        "Collaboration sur des sujets innovation IA orientes productivite",
+        "Developpement de detection d'anomalies avec Scikit-learn",
+        "Mise en place de scripts d'automatisation metier",
       ],
-      technologies: ["React", "Next.js", "Node.js", "PostgreSQL", "SQL", "Excel", "Hostinger"],
-      temoignage: {
-        texte: "Un développeur exceptionnel avec une vision technique remarquable. Son travail sur notre plateforme a considérablement amélioré nos performances et l'expérience utilisateur.",
-        auteur: "Christian N'KATTA",
-        poste: "Fondateur & CEO, Fingec",
-        note: 5
-      }
+      technologies: ["n8n", "Python", "SQL", "IA", "Data analysis"],
+      impact: "+40% de taux de reponse sur les relances automatisees",
     },
+
     {
       id: 2,
-      poste: "Data analyste",
-      entreprise: "ICM holding",
-      periode: "Juin 2024 - Aout 2024",
-      lieu: "Abidjan, CÔTE D'IVOIRE",
+      poste: "Stage Developpeur Web & Data",
+      entreprise: "Fingec - Cabinet d'expertise comptable",
+      entrepriseCourt: "FG",
+      logo: "/logo-fingec.png",
+      periode: "Avril 2025 - Juillet 2025",
+      lieu: "Rouen, France",
       description: [
-        "Analyse et traitement des données de l'ERP de l'entreprise pour faciliter la prise de décision.",
-        "Déploiement, gestion et accompagnement utilisateurs du nouvel ERP Odoo.",
-        "Maintenance et optimisation des systèmes existants pour améliorer leur fiabilité.",
-        "Analyse EDA  des données de la base de données principale de l'entreprise."
+        "Developpement d'un site web reactif avec Next.js",
+        "Scripts Python/VBA pour automatiser le traitement des fiches clients",
+        "Optimisation SEO et reporting automatise",
       ],
-      technologies: ["Maintenance", "Odoo", "SQL", "PostgreSQL", "Python"],
-      temoignage: {
-        texte: "Très professionnel et réactif. Il a transformé nos données en insights  époustouflants. Toujours à l'écoute et force de proposition.",
-        auteur: "Alexis Assi-Kacou",
-        poste: "Directeur IT, ICM holding",
-        note: 4
-      }
-    }
+      technologies: ["Next.js", "Python", "VBA", "SEO"],
+      impact: "Architecture web optimisee avec une meilleure performance front",
+    },
+    {
+      id: 3,
+      poste: "Stage Business Intelligence & Data",
+      entreprise: "ICM Holding - Logistique & Transit",
+      entrepriseCourt: "ICM",
+      logo: "/logo-icm.png",
+      periode: "Juin 2024 - Aout 2024",
+      lieu: "Abidjan, Cote d'Ivoire",
+      description: [
+        "Parametrage technique et deploiement de modules ERP Odoo",
+        "Requetes SQL complexes pour automatiser des rapports",
+        "Participation au backend d'un portail emploi (DB/API)",
+      ],
+      technologies: ["Odoo", "PostgreSQL", "SQL Server", "API"],
+      impact: "Traitement fiable de 87 candidatures mensuelles",
+    },
   ];
 
-  const renderStars = (note: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`w-4 h-4 ${
-          i < note ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-        }`}
-      />
-    ));
-  };
-
   return (
-    <section id="experiences" className="py-20 bg-muted/30">
+    <section id="experiences" className="py-20 bg-muted/20">
       <div className="container-width section-padding">
-        <div className={`fade-in ${isVisible ? "visible" : ""}`}>
-          {/* Titre de section */}
+        <div>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              Expériences Professionnelles
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Experiences professionnelles</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Mon parcours professionnel et les témoignages de mes anciens employeurs
+              Un parcours oriente data, automatisation et resultats concrets.
             </p>
           </div>
 
-          {/* Timeline des expériences */}
           <div className="space-y-8">
-            {experiences.map((exp, index) => (
+            {experiences.map((exp) => (
               <Card
                 key={exp.id}
-                className="border-border/50 hover:border-border transition-all duration-300 hover:shadow-lg"
+                className="glass-strong hover:border-primary/60 transition-all duration-300"
               >
                 <CardHeader>
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                    <div>
-                      <CardTitle className="text-xl font-bold">{exp.poste}</CardTitle>
-                      <div className="flex items-center gap-2 text-muted-foreground mt-1">
-                        <Building className="w-4 h-4" />
-                        <span className="font-medium">{exp.entreprise}</span>
-                        <span>•</span>
-                        <span>{exp.lieu}</span>
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    <div className="flex items-start gap-4">
+                      <div className="relative h-16 w-16 rounded-xl bg-muted border border-border/50 overflow-hidden flex items-center justify-center text-sm font-semibold shadow-sm flex-shrink-0">
+                        <span>{exp.entrepriseCourt}</span>
+                        <img
+                          src={exp.logo}
+                          alt={`Logo ${exp.entreprise}`}
+                          className="absolute inset-0 h-full w-full object-contain bg-white p-1"
+                          onError={(event) => {
+                            event.currentTarget.style.display = "none";
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl font-bold">{exp.poste}</CardTitle>
+                        <div className="flex items-center gap-2 text-muted-foreground mt-2 flex-wrap">
+                          <Building className="w-4 h-4" />
+                          <span className="font-medium">{exp.entreprise}</span>
+                          <span>•</span>
+                          <span>{exp.lieu}</span>
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -135,7 +121,6 @@ const ExperienceSection = () => {
                 </CardHeader>
 
                 <CardContent className="space-y-6">
-                  {/* Description des missions */}
                   <div>
                     <h4 className="font-semibold mb-3">Missions principales</h4>
                     <ul className="space-y-2">
@@ -148,9 +133,8 @@ const ExperienceSection = () => {
                     </ul>
                   </div>
 
-                  {/* Technologies utilisées */}
                   <div>
-                    <h4 className="font-semibold mb-3">Technologies utilisées</h4>
+                    <h4 className="font-semibold mb-3">Technologies utilisees</h4>
                     <div className="flex flex-wrap gap-2">
                       {exp.technologies.map((tech, idx) => (
                         <Badge key={idx} variant="secondary">
@@ -160,28 +144,9 @@ const ExperienceSection = () => {
                     </div>
                   </div>
 
-                  {/* Témoignage */}
-                  {exp.temoignage && (
-                    <div className="bg-accent/50 rounded-lg p-6 border-l-4 border-foreground">
-                      <div className="flex items-start gap-3">
-                        <Quote className="w-5 h-5 text-muted-foreground mt-1 flex-shrink-0" />
-                        <div className="space-y-3">
-                          <p className="italic text-foreground">
-                            "{exp.temoignage.texte}"
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <p className="font-semibold text-sm">{exp.temoignage.auteur}</p>
-                              <p className="text-xs text-muted-foreground">{exp.temoignage.poste}</p>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              {renderStars(exp.temoignage.note)}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  <div className="rounded-lg border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-primary">
+                    Impact: {exp.impact}
+                  </div>
                 </CardContent>
               </Card>
             ))}

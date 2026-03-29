@@ -13,8 +13,8 @@ const Navigation = () => {
     { name: "À propos", href: "#apropos" },
     { name: "Expériences", href: "#experiences" },
     { name: "Projets", href: "#projets" },
-    { name: "Formations", href: "#formations" },
     { name: "Compétences", href: "#competences" },
+    { name: "Formation", href: "#formations" },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -39,27 +39,34 @@ const Navigation = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-background/95 backdrop-blur-sm border-b border-border/50"
+          ? "glass border-b border-white/20"
           : "bg-transparent"
       }`}
     >
       <div className="container-width section-padding">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+        <div className="flex items-center justify-between h-16 gap-4">
           <div className="flex-shrink-0">
-            <h1 className="text-xl font-bold tracking-tight">
-              Portfolio
-            </h1>
+            <button
+              className="text-left"
+              onClick={() => scrollToSection("#accueil")}
+              type="button"
+            >
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Johan Bile
+              </p>
+              <h1 className="text-sm sm:text-base font-semibold tracking-tight">
+                Data & AI Developer
+              </h1>
+            </button>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-6">
               {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-sm font-medium transition-colors hover:text-foreground/80 text-foreground/60"
+                  className="text-sm font-medium transition-colors hover:text-foreground text-foreground/70"
                 >
                   {item.name}
                 </button>
@@ -67,8 +74,15 @@ const Navigation = () => {
             </div>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="hidden md:block">
+            <a href="/CV_Bile_Kouame.pdf" target="_blank" rel="noopener noreferrer">
+              <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                CV
+              </Button>
+            </a>
+          </div>
+
+          <div className="md:hidden flex items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
@@ -83,19 +97,28 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-background border-t border-border/50">
+            <div className="glass px-2 pt-2 pb-3 space-y-1 rounded-b-xl">
               {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left px-3 py-2 text-base font-medium transition-colors hover:text-foreground/80 text-foreground/60"
+                  className="block w-full text-left px-3 py-2 text-base font-medium transition-colors hover:text-foreground text-foreground/70"
                 >
                   {item.name}
                 </button>
               ))}
+              <a
+                href="/CV_Bile_Kouame.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-3 pt-2"
+              >
+                <Button size="sm" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                  Ouvrir mon CV
+                </Button>
+              </a>
             </div>
           </div>
         )}

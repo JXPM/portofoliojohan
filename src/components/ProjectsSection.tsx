@@ -1,171 +1,161 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import meteoImage from "@/assets/meteo.jpg";
-import hangMan from "@/assets/hangman.png";
-import coder from "@/assets/coder.jpg";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { ExternalLink, Github, Eye, Filter } from "lucide-react";
-import { StaticImageData } from "next/image";
-
+import { Clock3, ExternalLink, Filter, Github, GitFork, Star } from "lucide-react";
 
 interface Project {
   id: number;
   titre: string;
   description: string;
-  descriptionComplete: string;
-  image: string | StaticImageData;
+  image: string;
   technologies: string[];
   categorie: string;
   lienDemo?: string;
   lienGithub?: string;
-  dateCreation: string;
-  statut: "Terminé" | "En cours" | "Archivé";
+  impact: string;
+  source: "manuel" | "auto";
+  stars?: number;
+  forks?: number;
+  updatedAt?: string;
 }
 
+interface GithubRepo {
+  id: number;
+  name: string;
+  html_url: string;
+  description: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  language: string | null;
+  pushed_at: string;
+  fork: boolean;
+}
+
+const manualProjects: Project[] = [
+  {
+    id: 1,
+    titre: "Fingec Website",
+    description: "Site vitrine moderne avec experience utilisateur optimisee et chatbot IA.",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=300&fit=crop",
+    technologies: ["Next.js", "React", "Tailwind CSS", "OpenAI API"],
+    categorie: "Web",
+    lienDemo: "https://fingec.fr",
+    lienGithub: "https://github.com/JXPM/fingecwebsite",
+    impact: "Vitrine plus engageante et interactive pour les visiteurs",
+    source: "manuel",
+  },
+  {
+    id: 2,
+    titre: "Inference Causale Dashboard",
+    description: "Dashboard d'analyse causale pour comprendre les relations cause-effet.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=300&fit=crop",
+    technologies: ["Python", "Pandas", "Plotly", "SQL"],
+    categorie: "Data",
+    lienGithub: "https://github.com/JXPM/inference_causale",
+    impact: "Aide a la decision via des insights explicables",
+    source: "manuel",
+  },
+  {
+    id: 3,
+    titre: "Axomove Predict",
+    description: "Plateforme d'analytique predictive pour anticiper le churn client.",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&h=300&fit=crop",
+    technologies: ["Streamlit", "XGBoost", "EDA", "Pandas"],
+    categorie: "IA",
+    lienGithub: "https://github.com/JXPM/datapredict",
+    impact: "Detection proactive des risques de desengagement client",
+    source: "manuel",
+  },
+  {
+    id: 4,
+    titre: "Automation Workflows (n8n)",
+    description: "Scenario d'automatisation metier pour relances, suivi et notifications.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop",
+    technologies: ["n8n", "Webhook", "APIs", "No-code/Low-code"],
+    categorie: "Automatisation",
+    impact: "Gain de temps operationnel et reduction des taches manuelles",
+    source: "manuel",
+  },
+];
+
 const ProjectsSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [filtreActif, setFiltreActif] = useState("Tous");
-  const [projetsAffiches, setProjetsAffiches] = useState<Project[]>([]);
+  const [githubRepos, setGithubRepos] = useState<GithubRepo[]>([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
+    const fetchRepos = async () => {
+      try {
+        const response = await fetch("https://api.github.com/users/JXPM/repos?sort=updated&per_page=100");
+        if (!response.ok) {
+          return;
         }
-      },
-      { threshold: 0.2 }
-    );
+        const repos = (await response.json()) as GithubRepo[];
+        setGithubRepos(repos.filter((repo) => !repo.fork));
+      } catch (_error) {
+        setGithubRepos([]);
+      }
+    };
 
-    const section = document.getElementById("projets");
-    if (section) observer.observe(section);
-
-    return () => observer.disconnect();
+    fetchRepos();
   }, []);
 
-  const projets: Project[] = [
-    {
-      id: 1,
-      titre: "E-commerce Platform",
-      description: "Plateforme e-commerce complète avec panier, paiement et gestion admin",
-      descriptionComplete: "Développement d'une plateforme e-commerce moderne avec React et Node.js. Intégration de Stripe pour les paiements, gestion des stocks, système d'authentification avancé et tableau de bord administrateur complet. L'application gère plus de 1000 produits et traite en moyenne 500 commandes par jour.",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=300&fit=crop",
-      technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "Django"],
-      categorie: "Web App",
-      lienGithub: "https://github.com/JXPM/Maudiashop_ecommerce",
-      dateCreation: "2025",
-      statut: "En cours"
-    },
-    {
-      id: 2,
-      titre: "Meteo App",
-      description: "Application meteo en temps réel",
-      descriptionComplete: "Application web permettant de consulter la météo en temps réel pour n'importe quelle ville. Affiche les températures, conditions météorologiques, prévisions sur plusieurs jours et alertes météo. Interface intuitive et responsive, avec un design moderne.",
-      image: meteoImage,
-      technologies: ["Tkinter", "Plyer", "Python", "OpenWeather API"],
-      categorie: "Web App",
-      lienGithub: "https://github.com/JXPM/meteoapp",
-      dateCreation: "2025",
-      statut: "Terminé"
-    },
-    {
-      id: 3,
-      titre: "Hangman",
-      description: "Jeu Hangman en Python",
-      descriptionComplete: "Highman est un jeu Hangman développé en Python. Il permet à l'utilisateur de deviner des mots lettre par lettre, affiche le pendu au fur et à mesure des erreurs et propose une interface console simple et interactive. Idéal pour pratiquer la logique et la programmation en Python.",
-      image: hangMan,
-      technologies: ["Python"],
-      categorie: "Web App",
-      lienGithub: "https://github.com/JXPM/highman",
-      dateCreation: "2025",
-      statut: "Terminé"
-    },
-    {
-      id: 4,
-      titre: "Inference Causale",
-      description: "identification et visualisation de la relation de cause à effet entre des variables",
-      descriptionComplete: "Dashboard analytique d'inférence causale complet pour un projet data. Intégration de multiples sources de données, identification des relations de cause à effet entre les variables clés, visualisations interactives des effets causals et des contrefactuels. Permet de simuler différentes interventions, générer des insights actionnables et exporter les résultats. Traite efficacement de grands volumes de données tout en offrant des performances optimales et une interface intuitive pour les analystes et décideurs.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
-      technologies: [
-        "Python", "pandas", "NumPy", "Plotly", "Dash / Streamlit", "SQL / PostgreSQL"],
-      categorie: "Dashboard",
-      lienDemo: "https://analytics-demo.com",
-      lienGithub: "https://github.com/JXPM/inference_causale",
-      dateCreation: "2025",
-      statut: "Terminé"
-    },
-    {
-      id: 5,
-      titre: "fingecwebsite",
-      description: "site web vitrine avec chatbot IA",
-      descriptionComplete: "FingecWebsite est un site web vitrine interactif intégrant un chatbot basé sur l'IA. Il permet aux visiteurs de poser des questions en temps réel, de naviguer facilement à travers les services de l’entreprise et d’obtenir des informations instantanées. Le site est responsive, sécurisé et optimisé pour une expérience utilisateur fluide sur desktop et mobile.",
-      image: coder,
-      technologies: ["React", "Next.js", "Firebase", "OpenAI API", "Tailwind CSS"],
-      categorie: "Site web",
-      lienDemo: "https://fingec.fr",
-      lienGithub: "https://github.com/JXPM/fingecwebsite",
-      dateCreation: "2025",
-      statut: "Terminé"
-    },
-    {
-      id: 6,
-      titre: "Axomove - AI predictive analytics",
-      description: "Plateforme d'analytique prédictive basée sur l'IA",
-      descriptionComplete: "Axomove-predict est une plateforme streamlit d'analytique prédictive utilisant des modèles d'IA avancés pour aider les entreprises à anticiper l'abandon de clients. Interface utilisateur intuitive, intégration facile avec les systèmes existants et rapports personnalisés.",
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&h=300&fit=crop",
-      technologies: ["XGBoost", "EDA", "Python", "Streamlit", "Encoding", "pandas"],
-      categorie: "AI/ML",
-      lienGithub: "https://github.com/JXPM/datapredict",
-      dateCreation: "2025",
-      statut: "Terminé"
-    }
-  ];
+  const manualRepoNames = useMemo(
+    () =>
+      new Set(
+        manualProjects
+          .map((project) => project.lienGithub?.split("/").pop()?.toLowerCase())
+          .filter((value): value is string => Boolean(value))
+      ),
+    []
+  );
 
-  const categories = ["Tous", ...Array.from(new Set(projets.map(p => p.categorie)))];
+  const autoProjects = useMemo<Project[]>(
+    () =>
+      githubRepos
+        .filter((repo) => !manualRepoNames.has(repo.name.toLowerCase()))
+        .slice(0, 8)
+        .map((repo) => ({
+          id: repo.id + 10_000,
+          titre: repo.name,
+          description: repo.description || "Projet ajoute automatiquement depuis GitHub.",
+          image: `https://opengraph.githubassets.com/1/JXPM/${repo.name}`,
+          technologies: repo.language ? [repo.language, "GitHub"] : ["GitHub"],
+          categorie: "GitHub Auto",
+          lienGithub: repo.html_url,
+          impact: "Synchronise automatiquement des qu'un nouveau repo public est cree.",
+          source: "auto",
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          updatedAt: repo.pushed_at,
+        })),
+    [githubRepos, manualRepoNames]
+  );
 
-  useEffect(() => {
-    if (filtreActif === "Tous") {
-      setProjetsAffiches(projets);
-    } else {
-      setProjetsAffiches(projets.filter(p => p.categorie === filtreActif));
-    }
-  }, [filtreActif]);
+  const allProjects = useMemo(() => [...manualProjects, ...autoProjects], [autoProjects]);
+  const categories = useMemo(
+    () => ["Tous", ...Array.from(new Set(allProjects.map((project) => project.categorie)))],
+    [allProjects]
+  );
 
-  const getStatutColor = (statut: string) => {
-    switch (statut) {
-      case "Terminé": return "bg-green-100 text-green-800";
-      case "En cours": return "bg-blue-100 text-blue-800";
-      case "Archivé": return "bg-gray-100 text-gray-800";
-      default: return "bg-gray-100 text-gray-800";
-    }
-  };
+  const projetsAffiches =
+    filtreActif === "Tous"
+      ? allProjects
+      : allProjects.filter((project) => project.categorie === filtreActif);
 
   return (
-    <section id="projets" className="py-20 bg-background">
+    <section id="projets" className="py-20 bg-background/80">
       <div className="container-width section-padding">
-        <div className={`fade-in ${isVisible ? "visible" : ""}`}>
-          {/* Titre de section */}
+        <div>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              Mes Projets
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Projets selectionnes</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Découvrez une sélection de mes réalisations récentes et projets personnels
+              Projets mis en avant + sync automatique de tes nouveaux repos GitHub.
             </p>
           </div>
 
-          {/* Filtres */}
           <div className="flex flex-wrap justify-center gap-2 mb-12">
             {categories.map((categorie) => (
               <Button
@@ -181,25 +171,19 @@ const ProjectsSection = () => {
             ))}
           </div>
 
-          {/* Grille de projets */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projetsAffiches.map((projet, index) => (
+            {projetsAffiches.map((projet) => (
               <Card
                 key={projet.id}
-                className="group border-border/50 hover:border-border transition-all duration-300 hover:shadow-lg overflow-hidden"
+                className="group glass-strong hover:border-primary/60 transition-all duration-300 overflow-hidden"
               >
                 <div className="relative overflow-hidden">
                   <img
-                    src={typeof projet.image === "string" ? projet.image : projet.image.src}
+                    src={projet.image}
                     alt={projet.titre}
                     className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute top-3 right-3">
-                    <Badge className={`text-xs ${getStatutColor(projet.statut)}`}>
-                      {projet.statut}
-                    </Badge>
-                  </div>
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
                     {projet.lienDemo && (
                       <a
                         href={projet.lienDemo}
@@ -225,20 +209,20 @@ const ProjectsSection = () => {
 
                 <CardContent className="p-6">
                   <div className="space-y-3">
-                    <div className="flex items-start justify-between">
+                    <div className="flex items-start justify-between gap-2">
                       <h3 className="font-semibold text-lg group-hover:text-foreground/80 transition-colors">
                         {projet.titre}
                       </h3>
-                      <span className="text-xs text-muted-foreground">{projet.dateCreation}</span>
+                      <Badge variant="secondary" className="text-xs">
+                        {projet.categorie}
+                      </Badge>
                     </div>
 
-                    <p className="text-muted-foreground text-sm line-clamp-2">
-                      {projet.description}
-                    </p>
+                    <p className="text-muted-foreground text-sm line-clamp-2">{projet.description}</p>
 
                     <div className="flex flex-wrap gap-1">
                       {projet.technologies.slice(0, 3).map((tech, idx) => (
-                        <Badge key={idx} variant="secondary" className="text-xs">
+                        <Badge key={`${projet.id}-${tech}-${idx}`} variant="secondary" className="text-xs">
                           {tech}
                         </Badge>
                       ))}
@@ -249,75 +233,26 @@ const ProjectsSection = () => {
                       )}
                     </div>
 
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm" className="w-full mt-4 gap-2">
-                          <Eye className="w-4 h-4" />
-                          Voir les détails
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                        <DialogHeader>
-                          <DialogTitle className="text-xl">{projet.titre}</DialogTitle>
-                          <DialogDescription>
-                            Créé en {projet.dateCreation} • {projet.categorie}
-                          </DialogDescription>
-                        </DialogHeader>
+                    {projet.source === "auto" && (
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                        <span className="inline-flex items-center gap-1">
+                          <Star className="w-3.5 h-3.5" /> {projet.stars ?? 0}
+                        </span>
+                        <span className="inline-flex items-center gap-1">
+                          <GitFork className="w-3.5 h-3.5" /> {projet.forks ?? 0}
+                        </span>
+                        {projet.updatedAt && (
+                          <span className="inline-flex items-center gap-1">
+                            <Clock3 className="w-3.5 h-3.5" />
+                            {new Date(projet.updatedAt).toLocaleDateString("fr-FR")}
+                          </span>
+                        )}
+                      </div>
+                    )}
 
-                        <div className="space-y-4">
-                          <img
-                            src={typeof projet.image === "string" ? projet.image : projet.image.src}
-                            alt={projet.titre}
-                            className="w-full h-64 object-cover rounded-lg"
-                          />
-
-                          <div>
-                            <h4 className="font-semibold mb-2">Description complète</h4>
-                            <p className="text-muted-foreground leading-relaxed">
-                              {projet.descriptionComplete}
-                            </p>
-                          </div>
-
-                          <div>
-                            <h4 className="font-semibold mb-2">Technologies utilisées</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {projet.technologies.map((tech, idx) => (
-                                <Badge key={idx} variant="secondary">
-                                  {tech}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="flex gap-2">
-                            {projet.lienDemo && (
-                              <a
-                                href={projet.lienDemo}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <Button className="gap-2">
-                                  <ExternalLink className="w-4 h-4" />
-                                  Voir la démo
-                                </Button>
-                              </a>
-                            )}
-                            {projet.lienGithub && (
-                              <a
-                                href={projet.lienGithub}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <Button variant="outline" className="gap-2">
-                                  <Github className="w-4 h-4" />
-                                  Code source
-                                </Button>
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                    <p className="text-xs text-primary border border-primary/30 bg-primary/10 rounded-md px-3 py-2">
+                      Impact: {projet.impact}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
